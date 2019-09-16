@@ -16,7 +16,7 @@ namespace ConsoleApp2
             StartTime = DateTime.Now.ToString();
             Console.WriteLine(DateTime.Now);
 
-            DecodingMethod();
+            Decoding(GetMessageFromFile());
 
             //set app end time
             Console.WriteLine(DateTime.Now);
@@ -26,15 +26,14 @@ namespace ConsoleApp2
             Console.ReadKey();
         }
 
-        private static void DecodingMethod()
+        private static void Decoding(string message)
         {
-            var stringMessage = GetMessageFromFile();
-            var sb = new StringBuilder();
-
+            var stringMessage = message;
             char[] arraySymbols = stringMessage.ToCharArray();
             var symbolsCount = arraySymbols.Length;
+            var sb = new StringBuilder();
 
-            for (var i = 0; i < symbolsCount; i++)
+            for (int i = 0; i < symbolsCount; i++)
             {
                 if (i < symbolsCount - 1)
                 {
@@ -53,8 +52,21 @@ namespace ConsoleApp2
                 }
             }
 
-
             sb.Replace(" ", "");
+            arraySymbols = sb.ToString().ToCharArray();
+
+            for (int j = 0; j < sb.Length; j++)
+            {
+                if (j < sb.Length - 1)
+                {
+                    if (arraySymbols[j] == arraySymbols[j + 1])
+                    {
+                        Decoding(sb.ToString());
+                        return;
+                    }
+                }
+            }
+
             Console.WriteLine(sb);
         }
 
